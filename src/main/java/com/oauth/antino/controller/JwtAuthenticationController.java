@@ -53,7 +53,7 @@ public class JwtAuthenticationController {
 		try {
 			if(jsonMap.containsKey("mobilenumber")){
 				if(jsonMap.get("mobilenumber").toString().matches(regex)){
-					mobileandotp = sendSms(jsonMap.get("mobilenumber").toString());
+					//mobileandotp = sendSms(jsonMap.get("mobilenumber").toString());
 					token = jwtTokenUtil.generateToken(mobileandotp);
 			
 			map.put("token", token);
@@ -71,51 +71,7 @@ public class JwtAuthenticationController {
 
 	}
 
-	public String sendSms(String number) {
-		String apiKey = "";
-		String sendId = "";
-		String message = "";
-		String language = "english";
-		String route = "p";
-		String myUrl = "";
-		URL url = null;
-		;
-		try {
-			otp=getRandomNumberString();
-			apiKey = "LRdQC5kvtrT8AJliwIxge0s9Mb7HS6YFn1GhX2PuEZDozWjm3qb" + "KOU8YfNR7PZGEtmJsBxroL1MgSqaj";
-			sendId = "FSTSMS";
-			message = URLEncoder.encode(otp, "UTF-8");
-			language = "english";
-			route = "p";
-			myUrl = "https://www.fast2sms.com/dev/bulk?authorization=" + apiKey + "&sender_id=" + sendId + "&message="
-					+ message + "&language=" + language + "&route=" + route + "&numbers=" + number;
-			 url = new URL(myUrl);
-			 HttpsURLConnection con = (HttpsURLConnection)
-			 url.openConnection();
-			 con.setRequestMethod("GET");
-			 con.setRequestProperty("User-Agent", "Mozilla/5.0");
-			 con.setRequestProperty("cache-control", "no-cache");
-			 System.out.println("Wait..............");
-			 int code = con.getResponseCode();
-			 System.out.println("Response code : " + code);
-			 StringBuffer response = new StringBuffer();
-			 BufferedReader br = new BufferedReader(new
-		      InputStreamReader(con.getInputStream()));
-			 while (true) {
-			 String line = br.readLine();
-			 if (line == null) {
-			 break;
-			 }
-			 response.append(line);
-			 }
-			 System.out.println(response);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return number + "#" + message;
 
-	}
 
 	public String getRandomNumberString() {
 		Random rnd = new Random();
